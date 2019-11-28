@@ -26,7 +26,8 @@ $ sbt
 $ run <directory>
 search
 $ <words to search by, delimited by space>
-$ quit (to exit)
+no matches found
+$ quit
 ```
 
 For example
