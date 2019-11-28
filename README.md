@@ -4,7 +4,7 @@ Scala project for taking a directory and searching through files inside of it
 
 A simple file-searching solution. It loads in the files of specified directory and then searches those files for the words user specified.
 
-Since it's a rather simple solution, a word is just everything seperated by space, so 
+Since it's a rather simple solution, a word is just everything separated by space, so 
 ```
 "hello world" 
 ```
