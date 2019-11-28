@@ -1,1 +1,22 @@
-.idea/
+  
+.target
+.cache
+.classpath
+.project
+.settings
+
+lib_managed
+target/
+*.class
+logs/
+
+# Package Files #
+*.war
+*.ear
+*.sc
+
+.idea
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes

@@ -1,7 +1,11 @@
 package example
 
 import java.io.File
-import example.Program.index
+import java.nio.charset.CodingErrorAction
+
+import example.Program._
+
+import scala.io.Codec
 import scala.io.Source
 import scala.util.Try
 import scala.io.StdIn.readLine
@@ -45,20 +49,27 @@ object Program {
   }
 
   def iterate(indexedFiles: Index): Unit = {
+    val codec = Codec("UTF-8")
+    codec.onMalformedInput(CodingErrorAction.IGNORE)
+    codec.onUnmappableCharacter(CodingErrorAction.IGNORE)
     val files = indexedFiles.filesInIndex.toList
       .flatMap { a =>
-        if (a.isFile) {
+        val bufferedSource = Source.fromFile(a)(codec)
+        val fileIndexed = if (a.isFile) {
           Some(
             FileIndex(
               a.getName,
-              Source.fromFile(a).getLines.toList.flatMap(_.split(" ").toList)
+              bufferedSource.getLines.toList.flatMap(_.split(" ").toList)
             )
           )
         } else {
           None
         }
+        bufferedSource.close
+        fileIndexed
+
       }
-      .filter(_.words.size > 0)
+      .filter(_.words.nonEmpty)
 
     searchFile()
 
@@ -68,9 +79,7 @@ object Program {
       val searchString = readLine()
       if (!searchString.equals("quit")) {
         val searchList = searchString.split(" ").toList
-        //println("files " + files)
-        //println("searchList " + searchList)
-        val res2 = files
+        val res = files
           .map(
             a =>
               (
@@ -82,12 +91,12 @@ object Program {
               )
           )
           .filter(_._2 > 0)
-          .sortBy(_._2)(Ordering[Float].reverse)
+          .sortBy(_._2)(Ordering[Float].reverse).take(10)
 
-        if (res2.isEmpty) {
+        if (res.isEmpty) {
           println("no matches")
         } else {
-          res2.foreach(
+          res.foreach(
             entry => print(entry._1 + " : " + Math.round(entry._2) + "% ")
           )
           println("")
