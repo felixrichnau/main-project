@@ -13,9 +13,16 @@ $ sbt
 $ run <directory>
 ```
 
+For example
+
 ```
 $ sbt
 $ run /Users/felix/Desktop/felix
+search
+$ hello world
+file.txt : 50% codegeek.txt : 50% vol08.iss0001-0071.txt 
+search
+$ quit
 ```
   
   
